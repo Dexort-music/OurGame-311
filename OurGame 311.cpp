@@ -113,8 +113,6 @@ int main()
 		char key = GetInput();
 		cout << key;
 
-		// игровой код
-
 		// вывод
 		system("cls");
 		gameMap->Draw();

@@ -26,6 +26,8 @@ bool Map::CheckCollision(int x, int y) {
 	}
 	return false;*/
 
+
+	// возвращаем тру, если есть стенка
 	if (map[y][x] == '#' || map[y][x] == '|') {
 		return true;
 	}
