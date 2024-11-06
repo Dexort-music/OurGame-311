@@ -2,6 +2,8 @@
 #include <conio.h>
 #include <Windows.h>
 #include "Map.h"
+#include "Entity.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -12,7 +14,6 @@ void oldMain() {
 	int x = 0;
 	int y = 0;
 
-	///////dfklkjfdslfsdjlkfjdslkjfdslkjflkfjlsjdlkf
 	
 	int width = 20;
 	int height = 20;
@@ -20,12 +21,12 @@ void oldMain() {
 	bool isUp = false;
 
 	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD a;
 	CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
 	GetConsoleScreenBufferInfo(consoleHandle, &bufferInfo);
 
 	DWORD bufferLength = bufferInfo.srWindow.Right * bufferInfo.srWindow.Bottom;
 
-	DWORD a;
 
 	while (true) {
 		//system("cls");
@@ -93,9 +94,9 @@ void oldMain() {
 		}*/
 
 		// заполнение консоли
-		/*FillConsoleOutputCharacter(consoleHandle, ' ', bufferLength, { 0,0 }, &a);
+		/*FillConsoleOutputCharacter(consoleHandle, ' ', bufferLength, {0,0}, &a);
 		FillConsoleOutputCharacter(consoleHandle, '#', 1, { 10,10 }, &a);*/
-		Sleep(50);
+		//Sleep(50);
 
 		//char c = _getch();
 		//std::cout << c << " was hit";
@@ -109,6 +110,7 @@ char GetInput() {
 int main()
 {
 	Map* gameMap = new Map();
+	Entity* player = new Player(1, 1, '@');
 
 	while (true) {
 		// ввод
@@ -118,5 +120,6 @@ int main()
 		// вывод
 		system("cls");
 		gameMap->Draw();
+		player->Draw();
 	}
 }
