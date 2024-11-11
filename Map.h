@@ -6,8 +6,8 @@ using namespace std;
 
 class Map
 {
-	int width = 10;
-	int height = 5;
+	int width = 20;
+	int height = 10;
 	string* map;
 
 public:

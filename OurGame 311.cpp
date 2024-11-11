@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Entity.h"
 #include "Player.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -110,16 +111,43 @@ char GetInput() {
 int main()
 {
 	Map* gameMap = new Map();
-	Entity* player = new Player(1, 1, '@');
+	
+	Player* player = new Player(1, 1, '@');
+
+	int eCount = 3;
+	Entity** entities = new Entity*[eCount];
+	entities[0] = player;
+	entities[1] = new Enemy(6, 4, 'O', 10, 3, 2);
+	entities[2] = new Enemy(6, 7, 'O', 10, 3, 2);
 
 	while (true) {
 		// ввод
 		char key = GetInput();
-		cout << key;
+		//cout << key;
+
+		// игровая логика
+		player->Act(key, gameMap, entities, eCount);
+		
+		for (size_t i = 0; i < eCount; i++)
+		{
+			if (entities[i] == nullptr) {
+				continue;
+			}
+
+			if (entities[i]->type == EType::_AI) {
+				((Enemy*)entities[i])->SimpleAI(gameMap, entities, eCount);
+			}
+		}
 
 		// вывод
 		system("cls");
 		gameMap->Draw();
-		player->Draw();
+		//player->Draw();
+		for (size_t i = 0; i < eCount; i++)
+		{
+			if (entities[i] != nullptr) {
+				entities[i]->Draw();
+			}
+		}
 	}
 }
