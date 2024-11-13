@@ -12,6 +12,12 @@ class Entity
 public:
 	EType type;
 
+	short health;
+	short attack;
+	short defence;
+
+	bool isAlive = true;
+
 protected:
 	short x;
 	short y;
@@ -19,10 +25,9 @@ protected:
 	HANDLE consoleHandle;
 	DWORD a;
 
-	short health;
-	short attack;
-	short defence;
 public:
+	short GetX() { return x; };
+	short GetY() { return y; };
 	Entity();
 	void Draw();
 };

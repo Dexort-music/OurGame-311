@@ -112,7 +112,7 @@ int main()
 {
 	Map* gameMap = new Map();
 	
-	Player* player = new Player(1, 1, '@');
+	Player* player = new Player(1, 1, '@', 20, 5, 2);
 
 	int eCount = 3;
 	Entity** entities = new Entity*[eCount];
@@ -130,7 +130,7 @@ int main()
 		
 		for (size_t i = 0; i < eCount; i++)
 		{
-			if (entities[i] == nullptr) {
+			if (!entities[i]->isAlive) {
 				continue;
 			}
 
@@ -141,13 +141,25 @@ int main()
 
 		// вывод
 		system("cls");
+		// отрисовываем карту
 		gameMap->Draw();
-		//player->Draw();
+		
+		// рисуем что хотим (пока дебаг)
 		for (size_t i = 0; i < eCount; i++)
 		{
-			if (entities[i] != nullptr) {
+			cout << "E" << i 
+				<< ": HP: " << entities[i]->health 
+				<< " IsAlive: " << entities[i]->isAlive 
+				<< endl;
+		}
+
+		// рисуем entity
+		for (size_t i = 0; i < eCount; i++)
+		{
+			if (entities[i]->isAlive) {
 				entities[i]->Draw();
 			}
 		}
+
 	}
 }
