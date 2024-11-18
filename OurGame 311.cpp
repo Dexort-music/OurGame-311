@@ -5,6 +5,8 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Item.h"
+#include "ItemFactory.h"
 
 using namespace std;
 
@@ -114,11 +116,15 @@ int main()
 	
 	Player* player = new Player(1, 1, '@', 20, 5, 2);
 
-	int eCount = 3;
+	int eCount = 7;
 	Entity** entities = new Entity*[eCount];
 	entities[0] = player;
 	entities[1] = new Enemy(6, 4, 'O', 10, 3, 2);
-	entities[2] = new Enemy(6, 7, 'O', 10, 3, 2);
+	entities[2] = new Enemy(4, 7, 'O', 10, 3, 2);
+	entities[3] = ItemFactory::CreateGenericMedkit(6, 1, 2);
+	entities[4] = new Item(10, 8, '!', 0, 0, 7, 0);
+	entities[5] = ItemFactory::CreateMedkit(16, 2);
+	entities[6] = ItemFactory::CreateHealthBonus(16, 7, 3);
 
 	while (true) {
 		// ввод

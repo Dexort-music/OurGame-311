@@ -5,6 +5,7 @@ Enemy::Enemy(short x, short y, char symbol, short health, short attack, short de
 	this->y = y;
 	this->symbol = symbol;
 	this->health = health;
+	this->maxHealth = health;
 	this->attack = attack;
 	this->defence = defence;
 	type = EType::_AI;

@@ -7,6 +7,7 @@ Player::Player(short x, short y, char symbol, short health, short attack, short 
 	type = EType::_Player;
 
 	this->health = health;
+	this->maxHealth = health;
 	this->attack = attack;
 	this->defence = defence;
 }
@@ -57,7 +58,10 @@ void Player::Act(char key, Map* map, Entity** entities, int eCount) {
 			}
 			// Иначе, если на клетке предмет
 			else if (target->type == EType::_Item) {
-
+				bool used = ((Item*)target)->Use(this);
+				if (used) {
+					target->isAlive = false;
+				}
 			}
 		}
 	}

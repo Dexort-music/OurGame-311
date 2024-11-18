@@ -13,6 +13,7 @@ public:
 	EType type;
 
 	short health;
+	short maxHealth;
 	short attack;
 	short defence;
 
