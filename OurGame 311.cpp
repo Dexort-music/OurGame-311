@@ -110,13 +110,27 @@ char GetInput() {
 	return _getch();
 }
 
+/// <summary>
+/// TODO:
+/// 
+/// 1) WinCondition, LoseCondition
+/// 1.1) Добавить имена и описания объектам.
+/// 2) Разное поведение врагов, фабрика врагов.
+/// 3) Меню, режим курсора
+/// 4) Загрузка уровней из файлов
+/// 
+/// </summary>
+/// <returns></returns>
+
 int main()
 {
+	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+
 	Map* gameMap = new Map();
 	
-	Player* player = new Player(1, 1, '@', 20, 5, 2);
+	Player* player = new Player(1, 1, '@', 3, 5, 2);
 
-	int eCount = 7;
+	int eCount = 8;
 	Entity** entities = new Entity*[eCount];
 	entities[0] = player;
 	entities[1] = new Enemy(6, 4, 'O', 10, 3, 2);
@@ -125,8 +139,62 @@ int main()
 	entities[4] = new Item(10, 8, '!', 0, 0, 7, 0);
 	entities[5] = ItemFactory::CreateMedkit(16, 2);
 	entities[6] = ItemFactory::CreateHealthBonus(16, 7, 3);
+	entities[7] = new Item(10, 11, 'X', 0, 1, 0, 0);
+
+
+	char buf[20 * 10];
 
 	while (true) {
+		// вывод
+		system("cls");
+		// отрисовываем карту
+		gameMap->Draw();
+
+		// рисуем что хотим (пока дебаг)
+		for (size_t i = 0; i < eCount; i++)
+		{
+			cout << "E" << i
+				<< ": HP: " << entities[i]->health
+				<< " IsAlive: " << entities[i]->isAlive
+				<< endl;
+		}
+
+		//// рисуем entity
+		for (size_t i = 0; i < eCount; i++)
+		{
+			if (entities[i]->isAlive) {
+				entities[i]->Draw();
+			}
+		}
+
+		// временное решение. Условия проигрыша
+		if (!player->isAlive) {
+			Sleep(2000);
+			system("cls");
+			cout << "\n\n\t\t\tYou Lose!\n";
+			break;
+		}
+
+		// условия победы
+		for (size_t i = 0; i < eCount; i++)
+		{
+			if (entities[i]->type == EType::_AI) {
+				if (entities[i]->isAlive) {
+					// 
+					break;
+				}
+				// победа
+			}
+		}
+
+		// условие победы 2
+		// если игрок дошел докуда-то
+		if (!entities[7]->isAlive) {
+
+		}
+		
+		// у игрока, врагов и предметов должны быть названия и описания
+
 		// ввод
 		char key = GetInput();
 		//cout << key;
@@ -144,28 +212,5 @@ int main()
 				((Enemy*)entities[i])->SimpleAI(gameMap, entities, eCount);
 			}
 		}
-
-		// вывод
-		system("cls");
-		// отрисовываем карту
-		gameMap->Draw();
-		
-		// рисуем что хотим (пока дебаг)
-		for (size_t i = 0; i < eCount; i++)
-		{
-			cout << "E" << i 
-				<< ": HP: " << entities[i]->health 
-				<< " IsAlive: " << entities[i]->isAlive 
-				<< endl;
-		}
-
-		// рисуем entity
-		for (size_t i = 0; i < eCount; i++)
-		{
-			if (entities[i]->isAlive) {
-				entities[i]->Draw();
-			}
-		}
-
 	}
 }

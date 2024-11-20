@@ -15,4 +15,3 @@ public:
 	void Draw();
 	bool CheckCollision(int x, int y);
 };
-
