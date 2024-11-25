@@ -10,7 +10,7 @@ Map::Map() {
 		"#..v.....#.#.....#",
 		"#....vv..#.#.....#",
 		"#........#.......#",
-		"#...vv...#.......#",
+		"#...vv...#.......]",
 		"##################"
 	};
 }
@@ -36,4 +36,11 @@ bool Map::CheckCollision(int x, int y) {
 		return true;
 	}
 	return map[y][x] == '#' || map[y][x] == '|';
+}
+
+bool Map::CheckExit(int x, int y) {
+	if (x < 0 || x >= width || y < 0 || y >= height) {
+		return false;
+	}
+	return map[y][x] == ']';
 }

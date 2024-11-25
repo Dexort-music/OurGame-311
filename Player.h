@@ -6,7 +6,7 @@
 class Player : public Entity
 {
 public:
-	Player(short x, short y, char symbol, short health, short attack, short defence);
+	Player(short x, short y, char symbol, short health, short attack, short defence, string name, string desc);
 	void Act(char key, Map* map, Entity** entities, int eCount);
 };
 

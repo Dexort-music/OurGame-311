@@ -1,13 +1,8 @@
 #include "Item.h"
 
-Item::Item(short x, short y, char symbol, short health, short maxHealth, short attack, short defence) {
-	this->x = x;
-	this->y = y;
-	this->symbol = symbol;
-	this->health = health;
+Item::Item(short x, short y, char symbol, short health, short maxHealth, short attack, short defence, string name, string desc)
+	: Entity::Entity(x, y, symbol, health, attack, defence, name, desc) {
 	this->maxHealth = maxHealth;
-	this->attack = attack;
-	this->defence = defence;
 
 	type = EType::_Item;
 }

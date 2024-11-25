@@ -14,4 +14,5 @@ public:
 	Map();
 	void Draw();
 	bool CheckCollision(int x, int y);
+	bool CheckExit(int x, int y);
 };

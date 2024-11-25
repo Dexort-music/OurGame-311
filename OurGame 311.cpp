@@ -106,6 +106,11 @@ void oldMain() {
 	}
 }
 
+enum GameMode {
+	Game,
+	Cursor
+};
+
 char GetInput() {
 	return _getch();
 }
@@ -113,8 +118,6 @@ char GetInput() {
 /// <summary>
 /// TODO:
 /// 
-/// 1) WinCondition, LoseCondition
-/// 1.1) Добавить имена и описания объектам.
 /// 2) Разное поведение врагов, фабрика врагов.
 /// 3) Меню, режим курсора
 /// 4) Загрузка уровней из файлов
@@ -128,21 +131,19 @@ int main()
 
 	Map* gameMap = new Map();
 	
-	Player* player = new Player(1, 1, '@', 3, 5, 2);
-
-	int eCount = 8;
+	Player* player = new Player(1, 1, '@', 40, 5, 2, "Hero", "Brave knigth of 9'th kingdom");
+	int eCount = 7;
 	Entity** entities = new Entity*[eCount];
 	entities[0] = player;
-	entities[1] = new Enemy(6, 4, 'O', 10, 3, 2);
-	entities[2] = new Enemy(4, 7, 'O', 10, 3, 2);
-	entities[3] = ItemFactory::CreateGenericMedkit(6, 1, 2);
-	entities[4] = new Item(10, 8, '!', 0, 0, 7, 0);
+	entities[1] = new Enemy(6, 4, 'O', 10, 3, 2, "Zombie", "Rotten abomination");
+	entities[2] = new Enemy(4, 7, 'O', 10, 3, 2, "Big Zombie", "Big rotten abomination");
+	entities[3] = ItemFactory::CreateGenericMedkit(6, 1, 2, "Medpack", "Restores 2hp");
+	entities[4] = new Item(10, 8, '!', 0, 0, 7, 0, "Great Sword", "Sword made by Zeus");
 	entities[5] = ItemFactory::CreateMedkit(16, 2);
 	entities[6] = ItemFactory::CreateHealthBonus(16, 7, 3);
-	entities[7] = new Item(10, 11, 'X', 0, 1, 0, 0);
+	//entities[7] = new Item(10, 11, 'X', 0, 1, 0, 0);
 
-
-	char buf[20 * 10];
+	GameMode gameMode = GameMode::Game;
 
 	while (true) {
 		// вывод
@@ -153,9 +154,9 @@ int main()
 		// рисуем что хотим (пока дебаг)
 		for (size_t i = 0; i < eCount; i++)
 		{
-			cout << "E" << i
-				<< ": HP: " << entities[i]->health
-				<< " IsAlive: " << entities[i]->isAlive
+			cout << entities[i]->GetName() << "\t" << entities[i]->GetDesc() << "\n\tE" << i
+				<< ":\tHP: " << entities[i]->health
+				<< "\tIsAlive: " << entities[i]->isAlive
 				<< endl;
 		}
 
@@ -175,42 +176,70 @@ int main()
 			break;
 		}
 
+		bool won = false;
 		// условия победы
 		for (size_t i = 0; i < eCount; i++)
 		{
 			if (entities[i]->type == EType::_AI) {
 				if (entities[i]->isAlive) {
-					// 
+					// Если есть живой враг, выходим из цикла
 					break;
 				}
-				// победа
+				// Если мы сюда дошли, значит ни одного живого врага нет
+				won = true;
 			}
+		}
+
+		if (gameMap->CheckExit(player->GetX(), player->GetY())) {
+			won = true;
+		}
+
+		if (won) {
+			Sleep(2000);
+			system("cls");
+			cout << "\n\n\t\t\tCongratulations!\n";
+			break;
 		}
 
 		// условие победы 2
 		// если игрок дошел докуда-то
-		if (!entities[7]->isAlive) {
-
-		}
 		
 		// у игрока, врагов и предметов должны быть названия и описания
 
 		// ввод
 		char key = GetInput();
+
+		// проверяем, не хотим ли мы поменять режим игры
+		if (key == 'i' || key == 'I') {
+			if (gameMode == GameMode::Game) {
+				gameMode = GameMode::Cursor;
+			} else if (gameMode == GameMode::Cursor) {
+				gameMode = GameMode::Game;
+			}
+			// если я поменял режим, то в этот раз хочу пропустить логику
+			continue;
+		}
 		//cout << key;
 
-		// игровая логика
-		player->Act(key, gameMap, entities, eCount);
-		
-		for (size_t i = 0; i < eCount; i++)
-		{
-			if (!entities[i]->isAlive) {
-				continue;
-			}
+		// Сделать фабрику врагов
 
-			if (entities[i]->type == EType::_AI) {
-				((Enemy*)entities[i])->SimpleAI(gameMap, entities, eCount);
+		// игровая логика
+		if (gameMode == GameMode::Game) {
+			player->Act(key, gameMap, entities, eCount);
+
+			for (size_t i = 0; i < eCount; i++)
+			{
+				if (!entities[i]->isAlive) {
+					continue;
+				}
+
+				if (entities[i]->type == EType::_AI) {
+					((Enemy*)entities[i])->SimpleAI(gameMap, entities, eCount);
+				}
 			}
+		}
+		else if (gameMode == GameMode::Cursor) {
+			// логика режима курсора
 		}
 	}
 }

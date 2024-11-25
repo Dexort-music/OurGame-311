@@ -1,13 +1,7 @@
 #include "Enemy.h"
 
-Enemy::Enemy(short x, short y, char symbol, short health, short attack, short defence) {
-	this->x = x;
-	this->y = y;
-	this->symbol = symbol;
-	this->health = health;
-	this->maxHealth = health;
-	this->attack = attack;
-	this->defence = defence;
+Enemy::Enemy(short x, short y, char symbol, short health, short attack, short defence, string name, string desc)
+	: Entity::Entity(x, y, symbol, health, attack, defence, name, desc) {
 	type = EType::_AI;
 }
 

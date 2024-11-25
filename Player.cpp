@@ -1,15 +1,8 @@
 #include "Player.h"
 
-Player::Player(short x, short y, char symbol, short health, short attack, short defence) {
-	this->x = x;
-	this->y = y;
-	this->symbol = symbol;
+Player::Player(short x, short y, char symbol, short health, short attack, short defence, string name, string desc)
+	: Entity::Entity(x, y,symbol, health, attack, defence, name, desc) {
 	type = EType::_Player;
-
-	this->health = health;
-	this->maxHealth = health;
-	this->attack = attack;
-	this->defence = defence;
 }
 
 void Player::Act(char key, Map* map, Entity** entities, int eCount) {
