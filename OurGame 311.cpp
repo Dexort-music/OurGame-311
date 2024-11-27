@@ -7,6 +7,7 @@
 #include "Enemy.h"
 #include "Item.h"
 #include "ItemFactory.h"
+#include "Cursor.h"
 
 using namespace std;
 
@@ -107,8 +108,8 @@ void oldMain() {
 }
 
 enum GameMode {
-	Game,
-	Cursor
+	_Game,
+	_Cursor
 };
 
 char GetInput() {
@@ -143,7 +144,9 @@ int main()
 	entities[6] = ItemFactory::CreateHealthBonus(16, 7, 3);
 	//entities[7] = new Item(10, 11, 'X', 0, 1, 0, 0);
 
-	GameMode gameMode = GameMode::Game;
+	GameMode gameMode = GameMode::_Game;
+
+	Cursor* cursor = new Cursor();
 
 	while (true) {
 		// вывод
@@ -151,14 +154,17 @@ int main()
 		// отрисовываем карту
 		gameMap->Draw();
 
+		cursor->DrawMapInfo(gameMap);
+		cursor->DrawCursor();
+
 		// рисуем что хотим (пока дебаг)
-		for (size_t i = 0; i < eCount; i++)
+		/*for (size_t i = 0; i < eCount; i++)
 		{
 			cout << entities[i]->GetName() << "\t" << entities[i]->GetDesc() << "\n\tE" << i
 				<< ":\tHP: " << entities[i]->health
 				<< "\tIsAlive: " << entities[i]->isAlive
 				<< endl;
-		}
+		}*/
 
 		//// рисуем entity
 		for (size_t i = 0; i < eCount; i++)
@@ -194,6 +200,7 @@ int main()
 			won = true;
 		}
 
+		// код победного экрана
 		if (won) {
 			Sleep(2000);
 			system("cls");
@@ -201,30 +208,22 @@ int main()
 			break;
 		}
 
-		// условие победы 2
-		// если игрок дошел докуда-то
-		
-		// у игрока, врагов и предметов должны быть названия и описания
-
 		// ввод
 		char key = GetInput();
 
 		// проверяем, не хотим ли мы поменять режим игры
 		if (key == 'i' || key == 'I') {
-			if (gameMode == GameMode::Game) {
-				gameMode = GameMode::Cursor;
-			} else if (gameMode == GameMode::Cursor) {
-				gameMode = GameMode::Game;
+			if (gameMode == GameMode::_Game) {
+				gameMode = GameMode::_Cursor;
+			} else if (gameMode == GameMode::_Cursor) {
+				gameMode = GameMode::_Game;
 			}
 			// если я поменял режим, то в этот раз хочу пропустить логику
 			continue;
 		}
-		//cout << key;
-
-		// Сделать фабрику врагов
 
 		// игровая логика
-		if (gameMode == GameMode::Game) {
+		if (gameMode == GameMode::_Game) {
 			player->Act(key, gameMap, entities, eCount);
 
 			for (size_t i = 0; i < eCount; i++)
@@ -238,8 +237,9 @@ int main()
 				}
 			}
 		}
-		else if (gameMode == GameMode::Cursor) {
+		else if (gameMode == GameMode::_Cursor) {
 			// логика режима курсора
+			cursor->Move(key, gameMap);
 		}
 	}
 }

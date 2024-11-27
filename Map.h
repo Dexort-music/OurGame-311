@@ -15,4 +15,6 @@ public:
 	void Draw();
 	bool CheckCollision(int x, int y);
 	bool CheckExit(int x, int y);
+	bool CheckInBounds(int x, int y);
+	string GetTileName(int x, int y);
 };
