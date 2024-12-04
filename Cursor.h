@@ -17,11 +17,11 @@ public:
 	Cursor();
 	void Move(char key, Map* map);
 	// Отрисовка всей инфы
-	void DrawInfo(Map* map, Entity** entities);
+	void DrawInfo(Map* map, Entity** entities, int eCount);
 	// Отрисовка консольного курсора
 	void DrawCursor();
 	// Отрисовка инфы про точку на карте
 	void DrawMapInfo(Map* map);
 	// Отрисовка инфы про конкретный entity
-	void DrawEntityInfo(Entity* entity);
+	void DrawEntityInfo(Entity* entity, int n);
 };

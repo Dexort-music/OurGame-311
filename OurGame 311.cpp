@@ -137,7 +137,7 @@ int main()
 	Entity** entities = new Entity*[eCount];
 	entities[0] = player;
 	entities[1] = new Enemy(6, 4, 'O', 10, 3, 2, "Zombie", "Rotten abomination");
-	entities[2] = new Enemy(4, 7, 'O', 10, 3, 2, "Big Zombie", "Big rotten abomination");
+	entities[2] = new Enemy(6, 4, 'O', 10, 3, 2, "Big Zombie", "Big rotten abomination");
 	entities[3] = ItemFactory::CreateGenericMedkit(6, 1, 2, "Medpack", "Restores 2hp");
 	entities[4] = new Item(10, 8, '!', 0, 0, 7, 0, "Great Sword", "Sword made by Zeus");
 	entities[5] = ItemFactory::CreateMedkit(16, 2);
@@ -154,19 +154,13 @@ int main()
 		// отрисовываем карту
 		gameMap->Draw();
 
-		cursor->DrawMapInfo(gameMap);
-		cursor->DrawCursor();
+		if (gameMode == GameMode::_Cursor) {
+			cursor->DrawInfo(gameMap, entities, eCount);
+			//cursor->DrawMapInfo(gameMap);
+			//cursor->DrawCursor();
+		}
 
-		// рисуем что хотим (пока дебаг)
-		/*for (size_t i = 0; i < eCount; i++)
-		{
-			cout << entities[i]->GetName() << "\t" << entities[i]->GetDesc() << "\n\tE" << i
-				<< ":\tHP: " << entities[i]->health
-				<< "\tIsAlive: " << entities[i]->isAlive
-				<< endl;
-		}*/
-
-		//// рисуем entity
+		// рисуем entity
 		for (size_t i = 0; i < eCount; i++)
 		{
 			if (entities[i]->isAlive) {
@@ -186,9 +180,11 @@ int main()
 		// условия победы
 		for (size_t i = 0; i < eCount; i++)
 		{
-			if (entities[i]->type == EType::_AI) {
-				if (entities[i]->isAlive) {
+			Entity* e = entities[i];
+			if (e->type == EType::_AI) {
+				if (e->isAlive) {
 					// Если есть живой враг, выходим из цикла
+					won = false;
 					break;
 				}
 				// Если мы сюда дошли, значит ни одного живого врага нет

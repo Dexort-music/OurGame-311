@@ -1,4 +1,5 @@
 ﻿#include "Map.h"
+#include "Windows.h"
 
 Map::Map() {
 	map = new string[height]{
@@ -16,7 +17,7 @@ Map::Map() {
 }
 
 void Map::Draw() {
-	for (size_t i = 0; i < height; i++)
+	for (short i = 0; i < height; i++)
 	{
 		cout << map[i] << endl;
 	}
