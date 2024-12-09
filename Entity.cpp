@@ -20,5 +20,5 @@ Entity::Entity(short x, short y, char symbol, short health, short attack, short 
 }
 
 void Entity::Draw() {
-	FillConsoleOutputCharacter(consoleHandle, symbol, 1, { x, y }, &a);
+	FillConsoleOutputCharacter(consoleHandle, symbol, 1, {x, y}, &a);
 }
