@@ -6,6 +6,7 @@ using namespace std;
 
 class Map
 {
+public:
 	int width = 20;
 	int height = 10;
 	string* map;

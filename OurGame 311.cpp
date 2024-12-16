@@ -8,6 +8,7 @@
 #include "Item.h"
 #include "ItemFactory.h"
 #include "Cursor.h"
+#include "Resources.h"
 
 using namespace std;
 
@@ -121,7 +122,7 @@ char GetInput() {
 /// 
 /// 1) Перевести все на расширенные символы
 ///		1.1) узнать про wchar - wchar_t = 16 бит, 2 байта
-///		1.2) wstring 
+///		1.2) string 
 ///		1.3) поменять char на wchar_t
 ///		1.4) что делать с cout?
 /// 
@@ -137,6 +138,8 @@ int main()
 
 	Map* gameMap = new Map();
 	
+	SaveMap(gameMap, "D:/Test/MAP01.txt");
+
 	Player* player = new Player(1, 1, '@', 40, 5, 2, "Hero", "Brave knigth of 9'th kingdom");
 	int eCount = 7;
 	Entity** entities = new Entity*[eCount];
