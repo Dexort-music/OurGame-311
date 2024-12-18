@@ -14,6 +14,18 @@ Map::Map() {
 		"#...vv...#.......]",
 		"##################"
 	};
+	name = "Dungeon";
+	nextMapFileName = "MAP02";
+}
+
+Map::Map(int width, int height, string* map, string name, string nextMapFileName, short startX, short startY) {
+	this->width = width;
+	this->height = height;
+	this->map = map;
+	this->name = name;
+	this->nextMapFileName = nextMapFileName;
+	this->startX = startX;
+	this->startY = startY;
 }
 
 void Map::Draw() {

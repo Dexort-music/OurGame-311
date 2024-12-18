@@ -136,11 +136,12 @@ int main()
 {
 	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	Map* gameMap = new Map();
+	//Map* gameMap = new Map();
 	
-	SaveMap(gameMap, "D:/Test/MAP01.txt");
+	//SaveMap(gameMap, "MAP01");
+	Map* gameMap = LoadMap("MAP02");
 
-	Player* player = new Player(1, 1, '@', 40, 5, 2, "Hero", "Brave knigth of 9'th kingdom");
+	Player* player = new Player(gameMap->GetStartX(), gameMap->GetStartY(), '@', 40, 5, 2, "Hero", "Brave knigth of 9'th kingdom");
 	int eCount = 7;
 	Entity** entities = new Entity*[eCount];
 	entities[0] = player;
