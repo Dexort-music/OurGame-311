@@ -141,7 +141,9 @@ int main()
 	//SaveMap(gameMap, "MAP01");
 	Map* gameMap = LoadMap("MAP02");
 
-	Player* player = new Player(gameMap->GetStartX(), gameMap->GetStartY(), '@', 40, 5, 2, "Hero", "Brave knigth of 9'th kingdom");
+	//Player* player = new Player(gameMap->GetStartX(), gameMap->GetStartY(), '@', 40, 5, 2, "Hero", "Brave knigth of 9'th kingdom");
+	Player* player = (Player*)LoadEntity("PLAYER");
+
 	int eCount = 7;
 	Entity** entities = new Entity*[eCount];
 	entities[0] = player;
@@ -151,6 +153,7 @@ int main()
 	entities[4] = new Item(10, 8, '!', 0, 0, 7, 0, "Great Sword", "Sword made by Zeus");
 	entities[5] = ItemFactory::CreateMedkit(16, 2);
 	entities[6] = ItemFactory::CreateHealthBonus(16, 7, 3);
+	
 	//entities[7] = new Item(10, 11, 'X', 0, 1, 0, 0);
 
 	GameMode gameMode = GameMode::_Game;

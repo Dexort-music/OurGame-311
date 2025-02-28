@@ -65,3 +65,43 @@ Map* LoadMap(string mapName) {
 	inFile >> startX >> startY;
 	return new Map(width, height, map, name, nextMapFileName, startX, startY);
 }
+
+Entity* LoadEntity(string entityName) {
+	wstring wentityName(entityName.begin(), entityName.end());
+	ifstream inFile(GetExecutablePath() + L"/entities/" + wentityName + L".ent", ios::in);
+	if (!inFile.is_open()) {
+		wcout << L"Can't open file: " + wentityName + L".ent\n";
+		int x;
+		cin >> x;
+		return nullptr;
+	}
+	int type;
+	string name;
+	string desc;
+	char symbol;
+	short x, y;
+	short health, maxHealth, attack, defence;
+
+	inFile >> type;
+	inFile.ignore(1);
+	getline(inFile, name, '\n');
+	getline(inFile, desc, '\n');
+	inFile >> symbol;
+	inFile >> x >> y;
+	if (type == EType::_Player) {
+		inFile >> health >> attack >> defence;
+		return new Player(x, y, symbol, health, attack, defence, name, desc);
+	}
+	else if (type == EType::_AI) {
+		inFile >> health >> attack >> defence;
+		return new Enemy(x, y, symbol, health, attack, defence, name, desc);
+	}
+	else if (type == EType::_Item) {
+		inFile >> health >> maxHealth >> attack >> defence;
+		return new Item(x, y, symbol, health, maxHealth, attack, defence, name, desc);
+	}
+	else {
+		return new Entity();
+	}
+
+}
